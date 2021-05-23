@@ -69,7 +69,7 @@ public:
     }
 };
 
-int32_t Bird::wingCnt = 2; // Needs to be initialized globally
+int32_t Bird::wingCnt = 2; // Needs to be initialized globally, not mandatory
 int main()
 {
 
@@ -84,4 +84,5 @@ int main()
     p.Bird::fly();
 
     Bird::PrintMe();
+    //Bird::wingCnt = 2; can be accessed here if its public
 }
