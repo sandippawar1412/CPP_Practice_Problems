@@ -1,5 +1,11 @@
-#include <iostream>
-using namespace std;
+/*
+Class example: showing
+inheritance
+static, const data member
+*/
+
+#include "../includes.h"
+
 class Peak
 {
     string name;
