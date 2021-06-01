@@ -20,4 +20,9 @@
 #include <typeinfo>
 #include <iomanip>
 
+#include <cmath>
+
+
+#include<bits/stdc++.h> //in includes all the above as well
+
 using namespace std;
