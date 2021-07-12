@@ -69,12 +69,29 @@ int main1(int argc, char **argv)
 // -----------------------------------
 
 /*
-Array Type: Rotated Sorted Array, no duplicates
+Array Type: Rotated Sorted Array
 --------------------------
-bS_Regualr_R        : Regular Binary Search on Rotated Sorted Array, works on duplicates as well but
-                        returns any of index 
-bS_MaximumElement_R : 
-bS_MinimumElement_R :
+Rotate Array
+https://leetcode.com/problems/rotate-array/
+
+<No Duplicates>
+bS_Regualr_R        : Regular Binary Search on Rotated Sorted Array, returns index
+<distinct> https://leetcode.com/problems/search-in-rotated-sorted-array
+<duplicates> https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
+
+<No Duplicates>
+bS_MaximumElement_R : Finding max element in rotated array with no duplicates
+
+<No Duplicates>
+bS_MinimumElement_R : Finding min element in rotated array with no duplicates
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array
+
+<Works with duplicates>
+bS_MinimumElementDup_R: Finding min element in rotated array, there might be duplicates
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii
+
+
+normally in searches, seperated out == case and go search on both side
 */
 int bS_Regualr_R(vector<int> &A, int l, int h, int &target)
 {
@@ -130,6 +147,33 @@ int bS_MinimumElement_R(vector<int> &A, int l, int h)
         return bS_MinimumElement_R(A, m + 1, h);
     return bS_MinimumElement_R(A, l, m - 1);    
 }
+
+//To Support duplicates in array
+int bS_MinimumElementDup_R(vector<int> &A, int l, int h)
+{    
+    if (l > h)
+        return l;
+
+    int m = (l + h) / 2;
+        
+    if (m < h && A[m] > A[m + 1]) // [5,6,7,1,2] m->7, h->1/2
+        return m + 1;
+    if (l < m && A[m - 1] > A[m]) // [5,6,7,1,2] l->5/6/7, m->1
+        return m;
+
+    if(m != h && A[h] == A[m]){
+        int i1 = bS_MinimumElementDup_R(A, m + 1, h);
+        int i2 = bS_MinimumElementDup_R(A, l, m - 1);           
+        if(A[i1] < A[i2])
+            return i1;
+        return i2;
+    }
+
+    if (A[h] < A[m])
+        return bS_MinimumElementDup_R(A, m + 1, h);
+    return bS_MinimumElementDup_R(A, l, m - 1);    
+}
+
 // -------------------------------------
 
 int main2(int argc, char **argv)
