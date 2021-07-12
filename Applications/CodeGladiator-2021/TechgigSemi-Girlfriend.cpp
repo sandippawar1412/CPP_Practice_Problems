@@ -21,7 +21,7 @@ int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
     nodeDistance[1] = 0;
 
     priority_queue<pair<int64_t, int>, vector<pair<int64_t, int>>, greater<pair<int64_t, int>>> heap;
-    heap.push({0, 1});
+    heap.push({0, 1});//dummy <cost, source> pair
 
     while (!heap.empty())
     {
@@ -31,7 +31,7 @@ int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
         if (ele.first > nodeDistance[ele.second])
             continue;
 
-        if (ele.second == N)
+        if (ele.second == N) //if we reach to Nth node, we can return.
             return ele.first;
 
         for (auto &edge : edgesList[ele.second])
