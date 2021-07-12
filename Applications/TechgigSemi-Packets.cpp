@@ -18,25 +18,28 @@ int main()
     int packets;
     cin >> packets;
     long long int res = 0;
-    while(packets--){
+    while (packets--)
+    {
         long long int packet;
-        cin >> packet;       		
-        if(packet == 1){
+        cin >> packet;
+        if (packet == 1)
+        {
             res += 1;
             continue;
         }
         res += 1;
-        for(long long i = 2; i*i <= packet; ++i){
-            if(!(packet % i)){                
+        for (long long i = 2; i * i <= packet; ++i)
+        {
+            if (!(packet % i))
+            {
                 res += packet;
                 packet /= i;
-				--i;
+                --i;
             }
-        }  
+        }
         res += packet;
-    }   
-    cout<<res;
-    
+    }
+    cout << res;
 
     return 0;
 }

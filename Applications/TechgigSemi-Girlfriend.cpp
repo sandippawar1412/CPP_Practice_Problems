@@ -18,7 +18,7 @@ using namespace std;
 int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
 {
     vector<int64_t> nodeDistance(N + 1, INT64_MAX);
-    nodeDistance[1] = 0;    
+    nodeDistance[1] = 0;
 
     priority_queue<pair<int64_t, int>, vector<pair<int64_t, int>>, greater<pair<int64_t, int>>> heap;
     heap.push({0, 1});
@@ -31,8 +31,8 @@ int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
         if (ele.first > nodeDistance[ele.second])
             continue;
 
-        if(ele.second == N)
-            return ele.first;        
+        if (ele.second == N)
+            return ele.first;
 
         for (auto &edge : edgesList[ele.second])
         {
@@ -44,7 +44,7 @@ int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
                 nodeDistance[v] = newDist;
                 heap.push({newDist, v});
             }
-        }        
+        }
     }
     return nodeDistance[N];
 }
@@ -52,11 +52,12 @@ int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
 int main(int argc, char *a[])
 {
     int N;
-    cin >> N;       
-    vector<vector<pair<int, int>>> edgesList(N + 1);    
+    cin >> N;
+    vector<vector<pair<int, int>>> edgesList(N + 1);
     int R;
-    cin >> R;        
-    for(int i=0; i<R; ++i){
+    cin >> R;
+    for (int i = 0; i < R; ++i)
+    {
         int v1, v2, cost;
         cin >> v1 >> v2 >> cost;
         edgesList[v1].emplace_back(make_pair(v2, cost));
@@ -65,7 +66,7 @@ int main(int argc, char *a[])
 
     int64_t dist = findShortestDistance(N, edgesList);
 
-    if(dist == INT64_MAX)
+    if (dist == INT64_MAX)
         cout << "NOT POSSIBLE";
     else
         cout << dist;
