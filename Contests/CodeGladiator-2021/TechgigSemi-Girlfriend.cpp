@@ -51,6 +51,9 @@ int64_t findShortestDistance(int N, vector<vector<pair<int, int>>> &edgesList)
 
 int main(int argc, char *a[])
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
     int N;
     cin >> N;
     vector<vector<pair<int, int>>> edgesList(N + 1);
