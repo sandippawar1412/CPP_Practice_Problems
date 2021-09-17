@@ -1,5 +1,13 @@
+
 #include <bits/stdc++.h>
 using namespace std;
+/*
+Minimum Spanning Tree
+1. Using Prims Algorithm
+
+2. Using Kruskals Algorithm
+    --Used DSU(Disjoint Set Union Data Structure)
+*/
 
 //Consider starts from 1 than 0
 int prims(int n, vector<vector<int>> edges)
