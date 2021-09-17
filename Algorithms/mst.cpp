@@ -43,7 +43,7 @@ int prims(int n, vector<vector<int>> edges)
         mst_cost += e_cost;
 
         for (auto &edge : adj[e.second])
-            minHeap.emplace(edge.second, make_pair(e.first, edge.first));
+            minHeap.emplace(edge.second, make_pair(e.second, edge.first));
     }
     return mst_cost;
 }
