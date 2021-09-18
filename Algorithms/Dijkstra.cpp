@@ -3,30 +3,23 @@ using namespace std;
 
 void dijkstra(int N, vector<vector<pair<int, int>>> &adjList, vector<int> &minDist)
 {
-    queue<pair<pair<int, int>, long long>, vector<pair<pair<int, int>, long long>> > q1;
-
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
-    q.push({0, 1});
+    q.emplace(0, 1);
 
     while (!q.empty())
     {
-        pair<int, int> p = q.top();
+        auto [u, dist] = q.top();
         q.pop();
 
-        int node = p.second;
-        int dist = p.first;
-        if (dist > minDist[node])
+        if (dist > minDist[u])
             continue;
 
-        for (auto &edge : adjList[node])
-        {
-            int v = edge.first;
-            int newDist = dist + edge.second;
-
-            if (newDist < minDist[v])
+        for (auto &[v, d] : adjList[u])
+        {            
+            if (dist + d < minDist[v])
             {
-                minDist[v] = newDist;
-                q.push({newDist, v});
+                minDist[v] = dist + d;
+                q.emplace(dist+d, v);
             }
         }
     }
