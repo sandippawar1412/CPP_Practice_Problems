@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//Only distance no parent info
 vector<int> dijkstra(int A, vector<vector<int>> &B, int C)
 {
     vector<vector<pair<int, int>>> adj(A + 1); // vec[u]->{[v1, w1], [v2, w2]} ;
