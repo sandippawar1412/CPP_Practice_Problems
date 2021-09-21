@@ -9,6 +9,9 @@ Minimum Spanning Tree
     --Used DSU(Disjoint Set Union Data Structure)
 */
 
+//0 indexed and optimised code written
+void prims2(vector<vector<Ipair>> &adj);
+
 //Consider starts from 1 than 0
 int prims(int n, vector<vector<int>> edges)
 {
@@ -114,4 +117,32 @@ int main()
         cout << "Cost: " << mst_cost << endl;
     }
     return 0;
+}
+
+//Prims2 optimized code
+#define Ipair pair<int, int>
+#define IIpair pair<int, Ipair>
+int w;
+
+void prims2(vector<vector<Ipair>> &adj)
+{
+    priority_queue<IIpair, vector<IIpair>, greater<IIpair>> minHeap;
+    minHeap.emplace(0, make_pair(-1, 0));
+    vector<bool> visited(adj.size(), false);
+
+    while (!minHeap.empty())
+    {
+        auto [wt, e] = minHeap.top();
+        auto [u, v] = e;
+        minHeap.pop();
+        if (visited[v] == true)
+            continue;
+
+        w += wt;
+        visited[v] = true;
+        for (auto &[nextV, w] : adj[v])
+        {
+            minHeap.emplace(w, make_pair(v, nextV));
+        }
+    }
 }
