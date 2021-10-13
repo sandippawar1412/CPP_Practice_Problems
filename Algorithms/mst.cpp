@@ -9,6 +9,9 @@ Minimum Spanning Tree
     --Used DSU(Disjoint Set Union Data Structure)
 */
 
+#define Ipair pair<int, int>
+#define IIpair pair<int, Ipair>
+
 //0 indexed and optimised code written
 void prims2(vector<vector<Ipair>> &adj);
 
@@ -111,6 +114,7 @@ int main()
         int mst_cost = prims(n, edges);
         cout << "Cost: " << mst_cost << endl;
     }
+    
     {
         cout << "--Kruskals Algo--" << endl;
         int mst_cost = kruskal(n, edges);
@@ -120,8 +124,6 @@ int main()
 }
 
 //Prims2 optimized code
-#define Ipair pair<int, int>
-#define IIpair pair<int, Ipair>
 int w;
 
 void prims2(vector<vector<Ipair>> &adj)
