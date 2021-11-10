@@ -101,21 +101,38 @@ int bS_Regualr_R(vector<int> &A, int l, int h, int &target)
 
     if (A[m] == target)
         return m;
+    /*
+     * if A[m] is >= A[l] && taget in between them or
+     *    A[m] is < A[l]  && target is not in between A[m] && A[h]
+     */
+    if (A[m] >= A[l] && target >= A[l] && target < A[m] ||   // l..m is valid, increasing
+        (A[m] < A[l] && !(target > A[m] && target <= A[h]))) // m..h is valid, increasing
+        return bS_Regualr_R(A, l, m - 1, target);
+    //else
+    return bS_Regualr_R(A, m + 1, h, target);
+}
 
-    if (A[m] >= A[l])
-    {
-        if (target >= A[l] && target < A[m])
-            return bS_Regualr_R(A, l, m - 1, target);
-        return bS_Regualr_R(A, m + 1, h, target);
-    }
-    if (target > A[m] && target <= A[h]) //Else Part
-        return bS_Regualr_R(A, m + 1, h, target);
-    return bS_Regualr_R(A, l, m - 1, target);
+bool bS_RegualrDup_R(vector<int> &A, int B, int l, int h)
+{
+    if (l > h)
+        return false;
+    int m = (l + h) / 2;
+
+    if (A[m] == B)
+        return true;
+
+    if (A[m] > A[l] && B >= A[l] && B < A[m] ||    // l..m is valid, increasing
+        (A[m] < A[l] && !(B > A[m] && B <= A[h]))) // m..h is valid, increasing
+        return bS_RegualrDup_R(A, B, l, m - 1);
+    else if (A[m] < A[l])
+        return bS_RegualrDup_R(A, B, m + 1, h);
+    else
+        return bS_RegualrDup_R(A, B, l, m - 1) || bS_RegualrDup_R(A, B, m + 1, h);
 }
 
 // Return index of maximum element of rotated array-Pivot
 int bS_MaximumElement_R(vector<int> &A, int l, int h)
-{    
+{
     if (l > h)
         return h; // returning l, will return +1 index of ele if array is not rotated
 
@@ -132,12 +149,12 @@ int bS_MaximumElement_R(vector<int> &A, int l, int h)
 }
 
 int bS_MinimumElement_R(vector<int> &A, int l, int h)
-{    
+{
     if (l > h)
         return l;
 
     int m = (l + h) / 2;
-        
+
     if (m < h && A[m] > A[m + 1]) // [5,6,7,1,2] m->7, h->1/2
         return m + 1;
     if (l < m && A[m - 1] > A[m]) // [5,6,7,1,2] l->5/6/7, m->1
@@ -145,33 +162,34 @@ int bS_MinimumElement_R(vector<int> &A, int l, int h)
 
     if (A[h] < A[m])
         return bS_MinimumElement_R(A, m + 1, h);
-    return bS_MinimumElement_R(A, l, m - 1);    
+    return bS_MinimumElement_R(A, l, m - 1);
 }
 
 //To Support duplicates in array
 int bS_MinimumElementDup_R(vector<int> &A, int l, int h)
-{    
+{
     if (l > h)
         return l;
 
     int m = (l + h) / 2;
-        
+
     if (m < h && A[m] > A[m + 1]) // [5,6,7,1,2] m->7, h->1/2
         return m + 1;
     if (l < m && A[m - 1] > A[m]) // [5,6,7,1,2] l->5/6/7, m->1
         return m;
 
-    if(m != h && A[h] == A[m]){
+    if (m != h && A[h] == A[m])
+    {
         int i1 = bS_MinimumElementDup_R(A, m + 1, h);
-        int i2 = bS_MinimumElementDup_R(A, l, m - 1);           
-        if(A[i1] < A[i2])
+        int i2 = bS_MinimumElementDup_R(A, l, m - 1);
+        if (A[i1] < A[i2])
             return i1;
         return i2;
     }
 
     if (A[h] < A[m])
         return bS_MinimumElementDup_R(A, m + 1, h);
-    return bS_MinimumElementDup_R(A, l, m - 1);    
+    return bS_MinimumElementDup_R(A, l, m - 1);
 }
 
 // -------------------------------------
