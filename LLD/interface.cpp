@@ -2,7 +2,7 @@
 Interface and compositions
 IS-A and HAS-A relationship
 
-Dog is a Animal but has a walking behavior
+Dog IS-A Animal but HAS-A walking behavior
 */
 
 #include <bits/stdc++.h>
