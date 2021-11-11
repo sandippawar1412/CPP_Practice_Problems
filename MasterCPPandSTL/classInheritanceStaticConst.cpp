@@ -4,7 +4,8 @@ inheritance
 static, const data member
 */
 
-#include "../includes.h"
+#include <bits/stdc++.h>
+using namespace std;
 
 class Peak
 {
