@@ -4,10 +4,13 @@ using namespace std;
 class Singleton
 {
 private:
-    static Singleton *obj; // = nullptr;
+    static Singleton *obj; // if keept public, anyone can update from outside
     Singleton(){};
 
 public:
+    Singleton(Singleton &) = delete;
+    void operator=(const Singleton &) = delete;
+
     static Singleton *getObject()
     {
         if (obj == nullptr)
