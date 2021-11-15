@@ -17,6 +17,9 @@ public:
     int weight;
 };
 
+
+//Q:  why we need Walkable and WalkingBehavior both ??
+
 //Interface
 class Walkable
 {
@@ -115,4 +118,8 @@ int main()
     Dog *d2 = new Dog(new SlowWalkingBehavior, new FastSpeakingBehavoir);
     d2->walk();
     d2->makeSound();
+
+    Dog d3(new FastWalkingBehavior, new SlowSpeakingBehavoir);
+    d3.walk();
+    d3.makeSound();
 }
