@@ -57,7 +57,7 @@ public:
     }
     void calculateTax()
     {
-        tax = sal * 0.3 + sal * 0.03 + sal * 0.02;
+        tax = sal * 0.3 + sal * 0.03 + sal * 0.02; //PT + EC + ST
     }
 };
 
@@ -70,7 +70,7 @@ public:
     }
     void calculateTax()
     {
-        tax = sal * 0.2;
+        tax = sal * 0.2; //PT
     }
 };
 
@@ -83,7 +83,7 @@ public:
     }
     void calculateTax()
     {
-        tax = sal * 0.2 + sal * 0.05 + sal * 0.02;
+        tax = sal * 0.2 + sal * 0.05 + sal * 0.02; //PT + GST + ST
     }
 };
 
