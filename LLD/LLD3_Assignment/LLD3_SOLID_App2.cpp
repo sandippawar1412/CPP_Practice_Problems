@@ -38,25 +38,23 @@ enum EmployeeType
 class Employee //this should be abstact class, how to do it in cpp, without using help of any method
 {
 private:
-    string name;
-    string email;
-    string contact;
     int sal;
     EmployeeType type;
 
 public:
+    Employee(EmployeeType type) : type(type) {}
+    // virtual void calculateTax(){}; //go for abstract
+    // virtual void calculateTax() = 0; //no to interface, its for behavior
     int getSal()
     {
         return sal;
     }
-    int tax;
-    Employee(string name, string email, string contact, int sal, EmployeeType type) : name(name), email(email), contact(contact), sal(sal), type(type) {}
-    // virtual void calculateTax(){}; //go for abstract
-    // virtual void calculateTax() = 0; //no to interface, its for behavior
-    void printTax()
+
+    void setSal(int sal)
     {
-        cout << "Tax Amount: " << tax << endl;
+        this->sal = sal;
     }
+
     EmployeeType getType()
     {
         return type;
@@ -72,7 +70,22 @@ public:
 
 class TaxType1 : public Tax
 {
+    TaxType1(){};
+    static TaxType1 *instance;
+
 public:
+    TaxType1(const TaxType1 &) = delete;
+    TaxType1 &operator=(const TaxType1 &) = delete;
+
+    static TaxType1 *getInstance()
+    {
+        // static TaxType1 instance;
+        // return instance;
+        if (!instance)
+            instance = new TaxType1();
+        return instance;
+    }
+
     int calculateTax(Employee *emp)
     {
         return emp->getSal() * 0.3 + emp->getSal() * 0.03 + emp->getSal() * 0.02; //PT + EC + ST
@@ -81,7 +94,21 @@ public:
 
 class TaxType2 : public Tax
 {
+    TaxType2(){};
+    static TaxType2 *instance;
+
 public:
+    TaxType2(const TaxType2 &) = delete;
+    TaxType2 &operator=(const TaxType2 &) = delete;
+
+    static TaxType2 *getInstance()
+    {
+        // static TaxType2 instance;
+        // return instance;
+        if (!instance)
+            instance = new TaxType2();
+        return instance;
+    }
     int calculateTax(Employee *emp)
     {
         return emp->getSal() * 0.2; //PT
@@ -90,12 +117,33 @@ public:
 
 class TaxType3 : public Tax
 {
+
+    TaxType3(){};
+    static TaxType3 *instance;
+
 public:
+    TaxType3(const TaxType3 &) = delete;
+    TaxType3 &operator=(const TaxType3 &) = delete;
+
+    static TaxType3 *getInstance()
+    {
+        // static TaxType3 instance;
+        // return instance;
+        if (!instance)
+            instance = new TaxType3();
+        return instance;
+    }
+
     int calculateTax(Employee *emp)
     {
         return emp->getSal() * 0.2 + emp->getSal() * 0.05 + emp->getSal() * 0.02; //PT + GST + ST
     }
 };
+
+TaxType1 *TaxType1::instance = nullptr;
+TaxType2 *TaxType2::instance = nullptr;
+TaxType3 *TaxType3::instance = nullptr;
+
 class TaxCalFactory
 {
 public:
@@ -104,11 +152,11 @@ public:
         switch (e->getType())
         {
         case FTEMPLOYEE:
-            return new TaxType1;
+            return TaxType1::getInstance();
         case PTEMPLOYEE:
-            return new TaxType2;
+            return TaxType2::getInstance();
         case INTERN:
-            return new TaxType3;
+            return TaxType3::getInstance();
         }
         return nullptr;
     }
@@ -116,65 +164,36 @@ public:
 
 class FTEmployee : public Employee
 {
-    Tax *taxObj;
-
 public:
-    FTEmployee(string name, string email, string contact, int sal, Tax *taxObj) : Employee(name, email, contact, sal, FTEMPLOYEE), taxObj(taxObj)
-    {
-        calculateTax();
-    }
-    int calculateTax()
-    {
-        tax = taxObj->calculateTax(this);
-        return tax;
-    }
+    FTEmployee() : Employee(FTEMPLOYEE) {}
 };
 
 class Intern : public Employee
 {
-    Tax *taxObj;
 
 public:
-    Intern(string name, string email, string contact, int sal, Tax *taxObj) : Employee(name, email, contact, sal, INTERN), taxObj(taxObj)
-    {
-        calculateTax();
-    }
-    int calculateTax()
-    {
-        tax = taxObj->calculateTax(this);
-        return tax;
-    }
+    Intern() : Employee(INTERN) {}
 };
 
 class PTEmployee : public Employee
 {
-    Tax *taxObj;
 
 public:
-    PTEmployee(string name, string email, string contact, int sal, Tax *taxObj) : Employee(name, email, contact, sal, PTEMPLOYEE), taxObj(taxObj)
-    {
-        calculateTax();
-    }
-    int calculateTax()
-    {
-        tax = taxObj->calculateTax(this);
-        return tax;
-    }
+    PTEmployee() : Employee(PTEMPLOYEE) {}
 };
 
 int main()
 {
-    Employee *e1 = new FTEmployee("Sandeep", "sandeep.pawar810@gmail.com", "9876543210", 100000, new TaxType1());
-    e1->printTax();
+    Employee *e1 = new FTEmployee();
+    e1->setSal(1000);
 
-    Employee *e2 = new PTEmployee("Sandeep2", "sandeep.pawar810@gmail.com", "9876543210", 30000, new TaxType2());
-    e2->printTax();
+    Employee *e2 = new PTEmployee();
+    e2->setSal(230);
 
-    Employee *e3 = new Intern("Sandeep3", "sandeep.pawar810@gmail.com", "9876543210", 65000, new TaxType3());
-    e3->printTax();
+    Employee *e3 = new Intern();
+    e3->setSal(120);
 
     TaxCalFactory taxCalFact;
-
     cout << taxCalFact.getTaxCal(e1)->calculateTax(e1) << endl;
     cout << taxCalFact.getTaxCal(e2)->calculateTax(e2) << endl;
     cout << taxCalFact.getTaxCal(e3)->calculateTax(e3) << endl;
