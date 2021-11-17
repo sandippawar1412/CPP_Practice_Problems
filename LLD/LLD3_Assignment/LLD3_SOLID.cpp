@@ -1,4 +1,4 @@
-/*
+/*//using Dependency Inversion(Infusion)
 Scaler:
 --------------
 Problem 1:

@@ -1,4 +1,4 @@
-/*
+/* //Using singleton and Factory
 Scaler:
 --------------
 Problem 1:
