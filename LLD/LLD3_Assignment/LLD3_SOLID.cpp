@@ -28,57 +28,60 @@ Create a client that creates a few employees and assigns them random salaries an
 #include <bits/stdc++.h>
 using namespace std;
 
-//Interface
-class Tax
-{
-public:
-    virtual int calculateTax(int sal) = 0;
-};
-
-class TaxType1 : public Tax
-{
-public:
-    int calculateTax(int sal)
-    {
-        return sal * 0.3 + sal * 0.03 + sal * 0.02; //PT + EC + ST
-    }
-};
-
-class TaxType2 : public Tax
-{
-public:
-    int calculateTax(int sal)
-    {
-        return sal * 0.2; //PT
-    }
-};
-
-class TaxType3 : public Tax
-{
-public:
-    int calculateTax(int sal)
-    {
-        return sal * 0.2 + sal * 0.05 + sal * 0.02; //PT + GST + ST
-    }
-};
-
 class Employee
 {
 private:
     string name;
     string email;
     string contact;
-
-protected:
     int sal;
-    int tax;
 
 public:
+    int getSal()
+    {
+        return sal;
+    }
+    int tax;
     Employee(string name, string email, string contact, int sal) : name(name), email(email), contact(contact), sal(sal) {}
-    virtual void calculateTax() = 0;
+    virtual void calculateTax(){}; //go for abstract
+    // virtual void calculateTax() = 0; //no to interface, its for behavior
     void printTax()
     {
         cout << "Tax Amount: " << tax << endl;
+    }
+};
+
+//Interface
+class Tax
+{
+public:
+    virtual int calculateTax(Employee *) = 0;
+};
+
+class TaxType1 : public Tax
+{
+public:
+    int calculateTax(Employee *emp)
+    {
+        return emp->getSal() * 0.3 + emp->getSal() * 0.03 + emp->getSal() * 0.02; //PT + EC + ST
+    }
+};
+
+class TaxType2 : public Tax
+{
+public:
+    int calculateTax(Employee *emp)
+    {
+        return emp->getSal() * 0.2; //PT
+    }
+};
+
+class TaxType3 : public Tax
+{
+public:
+    int calculateTax(Employee *emp)
+    {
+        return emp->getSal() * 0.2 + emp->getSal() * 0.05 + emp->getSal() * 0.02; //PT + GST + ST
     }
 };
 
@@ -93,7 +96,7 @@ public:
     }
     void calculateTax()
     {
-        tax = taxObj->calculateTax(sal);
+        tax = taxObj->calculateTax(this);
     }
 };
 
@@ -108,7 +111,7 @@ public:
     }
     void calculateTax()
     {
-        tax = taxObj->calculateTax(sal);
+        tax = taxObj->calculateTax(this);
     }
 };
 
@@ -123,7 +126,7 @@ public:
     }
     void calculateTax()
     {
-        tax = taxObj->calculateTax(sal);
+        tax = taxObj->calculateTax(this);
     }
 };
 
@@ -137,6 +140,8 @@ int main()
 
     e = new Intern("Sandeep3", "sandeep.pawar810@gmail.com", "9876543210", 65000, new TaxType3());
     e->printTax();
+
+    
 
     return 0;
 }
