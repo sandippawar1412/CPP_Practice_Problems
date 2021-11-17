@@ -28,7 +28,7 @@ Create a client that creates a few employees and assigns them random salaries an
 #include <bits/stdc++.h>
 using namespace std;
 
-class Employee
+class Employee //this should be abstact class, how to do it in cpp, without using help of any method
 {
 private:
     string name;
@@ -43,7 +43,7 @@ public:
     }
     int tax;
     Employee(string name, string email, string contact, int sal) : name(name), email(email), contact(contact), sal(sal) {}
-    virtual void calculateTax(){}; //go for abstract
+    // virtual void calculateTax(){}; //go for abstract
     // virtual void calculateTax() = 0; //no to interface, its for behavior
     void printTax()
     {
@@ -140,8 +140,6 @@ int main()
 
     e = new Intern("Sandeep3", "sandeep.pawar810@gmail.com", "9876543210", 65000, new TaxType3());
     e->printTax();
-
-    
 
     return 0;
 }
