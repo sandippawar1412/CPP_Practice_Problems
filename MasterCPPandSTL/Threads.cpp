@@ -19,7 +19,7 @@ void even(int start, int end)
 {
     while (cnt < end)
     {
-        unique_lock<mutex> ul(mu);
+        unique_lock<mutex> ul{mu};
         condVar.wait(ul, chkEven);
         cout << "Even: " << cnt++ << endl;
         // ul.unlock(); // Not compulsary to have
@@ -31,7 +31,7 @@ void odd(int start, int end)
 {
     while (cnt < end)
     {
-        unique_lock<mutex> ul(mu);
+        unique_lock<mutex> ul{mu};
         // condVar.wait(ul, chkOdd);
         condVar.wait(ul, []()
                      { return cnt % 2 == 1; }); // Lambda
@@ -43,8 +43,8 @@ void odd(int start, int end)
 
 int main()
 {
-    thread tobj1(even, 1, 100);
-    thread tobj2(odd, 1, 100);
+    thread tobj1{even, 1, 100};
+    thread tobj2{odd, 1, 100};
     tobj1.join();
     tobj2.join();
     cout << "Done" << endl;
