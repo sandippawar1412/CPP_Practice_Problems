@@ -16,6 +16,11 @@ class Symbol
     char symbol;
 
 public:
+    char getSymbol()
+    {
+        return symbol;
+    }
+
     Symbol(char symbol) : symbol(symbol) {}
 };
 
@@ -32,6 +37,10 @@ public:
     void setSymbol(Symbol *symbol)
     {
         this->symbol = symbol;
+    }
+    Symbol *getSymbol()
+    {
+        return symbol;
     }
 
     class Builder
@@ -73,7 +82,7 @@ public:
 
     } builder;
 
-    static Builder* getBuilder()
+    static Builder *getBuilder()
     {
         return new Builder();
     }
@@ -118,7 +127,7 @@ public:
         };
     } builder;
 
-    static Builder* getBuilder()
+    static Builder *getBuilder()
     {
         return new Builder;
     }
@@ -219,6 +228,21 @@ private:
             {
                 //throw exception
             }
+
+            unordered_set<char> st;
+            for (auto &player : game->getPlayers())
+            {
+                char ch = player->getSymbol()->getSymbol();
+                if (st.count(ch))
+                {
+                    //throw exception: DuplicateSymbolExist
+                }
+                else
+                {
+                    st.emplace(ch);
+                }
+            }
+
             Board *board = new Board(rows, cols);
             game->setBoard(board);
             return game;
@@ -226,7 +250,7 @@ private:
     } builder;
 
 public:
-    static Builder* getBuilder()
+    static Builder *getBuilder()
     {
         return new Builder;
     }
