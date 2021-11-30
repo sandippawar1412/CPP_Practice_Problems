@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #include "strategy.h"
+#include "board.h"
+#include "player.h"
 
 //should not have attribute public
 
@@ -11,163 +13,10 @@ using namespace std;
 //     O,
 // };
 
-class Symbol
-{
-    char symbol;
-
-public:
-    char getSymbol()
-    {
-        return symbol;
-    }
-
-    Symbol(char symbol) : symbol(symbol) {}
-};
-
-class SymbolRegistry
-{
-    vector<Symbol *> symbolRegistry;
-};
-
-class Player
-{
-    Symbol *symbol;
-
-public:
-    void setSymbol(Symbol *symbol)
-    {
-        this->symbol = symbol;
-    }
-    Symbol *getSymbol()
-    {
-        return symbol;
-    }
-
-    class Builder
-    {
-    };
-};
-
-class Bot : public Player
-{
-    IAutoMoveStrategy *autoMoveStrategy;
-
-public:
-    static class Builder
-    {
-        Bot *botPlayer;
-
-    public:
-        Builder()
-        {
-            botPlayer = new Bot();
-        }
-
-        Bot *build()
-        {
-            return botPlayer;
-        }
-
-        Builder setSymbol(char symbol)
-        {
-            botPlayer->setSymbol(new Symbol(symbol));
-            return *this;
-        };
-
-        Builder setMoveStrategy(IAutoMoveStrategy *strategy)
-        {
-            botPlayer->autoMoveStrategy = strategy;
-            return *this;
-        }
-
-    } builder;
-
-    static Builder *getBuilder()
-    {
-        return new Builder();
-    }
-};
-
-class User
-{
-    string name;
-    string email_id;
-};
-
-class Human : public Player
-{
-    User user;
-
-public:
-    static class Builder
-    {
-        Human *humanPlayer;
-
-    public:
-        Builder()
-        {
-            humanPlayer = new Human();
-        }
-
-        Human *build()
-        {
-            return humanPlayer;
-        }
-
-        Builder setUser(User user)
-        {
-            humanPlayer->user = user;
-            return *this;
-        }
-
-        Builder setSymbol(char symbol)
-        {
-            humanPlayer->setSymbol(new Symbol(symbol));
-            return *this;
-        };
-    } builder;
-
-    static Builder *getBuilder()
-    {
-        return new Builder;
-    }
-};
-
-class Cell
-{
-    int x, y;
-    Symbol *symbol; //nil or some val
-public:
-    Cell()
-    {
-        symbol = nullptr;
-    }
-    Cell(int x, int y) : x(x), y(y) {}
-};
-
-class Board
-{
-    vector<vector<Cell *>> board;
-
-public:
-    Board()
-    {
-    }
-    Board(int rows, int cols)
-    {
-        for (int i = 0; i < rows; ++i)
-        {
-            for (int j = 0; j < cols; ++j)
-            {
-                board[i].emplace_back(new Cell(i, j));
-            }
-        }
-    }
-};
-
 /*
 if implementing for extensions.. prefer list
 */
+
 class Game
 {
     vector<Player *> players;
@@ -188,8 +37,9 @@ public:
         this->board = board;
     }
 
-private:
-    static class Builder
+    // private:
+    // static class Builder
+    class Builder
     {
         Game *game;
         int rows, cols;
@@ -202,13 +52,15 @@ private:
 
         Builder addPlayer(Player *player)
         {
-            game->getPlayers().emplace_back(player);
+            // game->getPlayers().emplace_back(player);
+            game->players.emplace_back(player);
             return *this;
         }
 
         Builder addWinningStratey(IWinningStrategy *strategy)
         {
-            game->getWinnningStrategies().emplace_back(strategy);
+            // game->getWinnningStrategies().emplace_back(strategy);
+            game->winningStrategies.emplace_back(strategy);
             return *this;
         }
         Builder setRows(int rows)
@@ -244,15 +96,16 @@ private:
             }
 
             Board *board = new Board(rows, cols);
-            game->setBoard(board);
+            // game->setBoard(board);
+            game->board = board;
             return game;
         }
-    } builder;
+    }; // builder;
 
 public:
     static Builder *getBuilder()
     {
-        return new Builder;
+        return new Builder();
     }
 };
 
