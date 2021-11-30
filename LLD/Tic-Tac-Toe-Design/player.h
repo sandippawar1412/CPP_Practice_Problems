@@ -1,35 +1,23 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-
+#include "playerAbstract.h"
 #include "strategy.h"
 #include "symbol.h"
 #include <bits/stdc++.h>
 using namespace std;
-
-class Player
-{
-    Symbol *symbol;
-
-public:
-    void setSymbol(Symbol *symbol)
-    {
-        this->symbol = symbol;
-    }
-    Symbol *getSymbol()
-    {
-        return symbol;
-    }
-
-    class Builder
-    {
-    };
-};
 
 class Bot : public Player
 {
     IAutoMoveStrategy *autoMoveStrategy;
 
 public:
+    Cell makeMove(Board *board)
+    {
+        cout << "Bot with symbol[" << getSymbol()->getSymbol() << "] Played" << endl;
+        Cell cell = autoMoveStrategy->makeMove(board);
+        cell.setSymbol(getSymbol());
+        return cell;
+    }
     static class Builder
     {
         Bot *botPlayer;
@@ -73,9 +61,20 @@ class User
 
 class Human : public Player
 {
-    User user;
+    User *user;
 
 public:
+    Cell makeMove(Board *board)
+    {
+        int x, y;
+        cout << "For Player with symbol[" << getSymbol()->getSymbol() << "]"
+             << " enter cell Nos <x y>: ";
+        cin >> x >> y;
+        Cell cell(x, y);
+        cell.setSymbol(getSymbol());
+        return cell;
+    }
+
     static class Builder
     {
         Human *humanPlayer;
@@ -91,7 +90,7 @@ public:
             return humanPlayer;
         }
 
-        Builder setUser(User user)
+        Builder setUser(User *user)
         {
             humanPlayer->user = user;
             return *this;

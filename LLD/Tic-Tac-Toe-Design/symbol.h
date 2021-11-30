@@ -1,5 +1,13 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
+#include <bits/stdc++.h>
+using namespace std;
+
+// enum Symbol
+// {
+//     X,
+//     O,
+// };
 
 class Symbol
 {
