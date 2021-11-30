@@ -8,8 +8,6 @@ class GameController
 public:
     static void run(Game *game)
     {
-        // game->getPlayers()
-        // int i = 3;
         while (1)
         {
             cout << "-New Round-" << endl;
